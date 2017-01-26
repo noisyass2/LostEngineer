@@ -1,0 +1,13 @@
+
+uipack.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arrowBeige_left.png
+  rotate: false
+  xy: 303, 486
+  size: 22, 21
+  orig: 22, 21
+  offset: 0, 0
+  index: -1
