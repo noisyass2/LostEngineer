@@ -7,6 +7,7 @@ public class Item {
     public String Code;
     public String Name;
     public int Quantity;
+    public int Index;
 
     public String code()
     {
