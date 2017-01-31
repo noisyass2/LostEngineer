@@ -161,12 +161,14 @@ public class WorldScreen implements Screen {
         actionTable.add(btnMineStone).width(100).pad(5);
         actionTable.row();
 
-        rootTable.add(actionTable);
+
 
         inventoryTable = Player.Global.Inventory.GetTable(skin);
-        craftTable = Player.Global.GetRecipesTable(skin);
+        craftTable = Player.GetRecipesTable(skin);
 
+        rootTable.add(actionTable);
         rootTable.add(inventoryTable);
+        rootTable.row();
         rootTable.add(craftTable);
 
         actionTable.setDebug(true);

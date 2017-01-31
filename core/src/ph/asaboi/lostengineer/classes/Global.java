@@ -44,7 +44,7 @@ public class Global {
         furnace.Name = "Stone Furnace";
 
         recipe.Outputs.add(furnace);
-
+        recipe.Speed = 200;
         Recipes.add(recipe);
 
     }
@@ -60,37 +60,7 @@ public class Global {
         System.out.println("Added " + i + " " + ore);
     }
 
-    public Table GetRecipesTable(Skin skin)
-    {
-        RecipeButtons = new ArrayList<TextButton>();
-        Table recipeTable = new Table();
-        RecipeIndex = 0;
-        for (final Recipe recipe :
-                Recipes) {
 
-            TextButton btnCraft = new TextButton(recipe.Name,skin);
-            btnCraft.addListener(new ChangeListener() {
-                public void changed (ChangeEvent event, Actor actor) {
-                    CraftItem(recipe.Code);
-                }
-            });
 
-            recipe.Index = RecipeIndex;
-            RecipeButtons.add(btnCraft);
-            RecipeIndex++;
 
-            recipeTable.add(btnCraft).pad(5);
-            recipeTable.row();
-        }
-        return  recipeTable;
-    }
-
-    private void CraftItem(String code) {
-        Recipe recipe = from(Recipes).where("code", eq(code)).first();
-        if(Inventory.Has(recipe.Inputs))
-        {
-            Inventory.Remove(recipe.Inputs);
-            Inventory.Add(recipe.Outputs);
-        }
-    }
 }
