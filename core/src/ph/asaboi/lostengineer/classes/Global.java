@@ -44,7 +44,7 @@ public class Global {
         furnace.Name = "Stone Furnace";
 
         recipe.Outputs.add(furnace);
-
+        recipe.Speed = 200;
         Recipes.add(recipe);
 
     }
@@ -60,37 +60,21 @@ public class Global {
         System.out.println("Added " + i + " " + ore);
     }
 
-    public Table GetRecipesTable(Skin skin)
+    public void AddMiner(String miner)
     {
-        RecipeButtons = new ArrayList<TextButton>();
-        Table recipeTable = new Table();
-        RecipeIndex = 0;
-        for (final Recipe recipe :
-                Recipes) {
-
-            TextButton btnCraft = new TextButton(recipe.Name,skin);
-            btnCraft.addListener(new ChangeListener() {
-                public void changed (ChangeEvent event, Actor actor) {
-                    CraftItem(recipe.Code);
-                }
-            });
-
-            recipe.Index = RecipeIndex;
-            RecipeButtons.add(btnCraft);
-            RecipeIndex++;
-
-            recipeTable.add(btnCraft).pad(5);
-            recipeTable.row();
+        if(Inventory.Has("burner-mining-drill",1)) {
+            Inventory.Add(miner + "-drill", 1);
+            Inventory.Remove("burner-mining-drill",1);
         }
-        return  recipeTable;
+        System.out.println("Added " + miner + " drill");
     }
 
-    private void CraftItem(String code) {
-        Recipe recipe = from(Recipes).where("code", eq(code)).first();
-        if(Inventory.Has(recipe.Inputs))
-        {
-            Inventory.Remove(recipe.Inputs);
-            Inventory.Add(recipe.Outputs);
+    public void DelMiner(String miner)
+    {
+        if(Inventory.Has(miner + "-drill",1)) {
+            Inventory.Add("burner-mining-drill", 1);
+            Inventory.Remove(miner + "-drill",1);
         }
+        System.out.println("Removed " + miner + " drill");
     }
 }

@@ -13,6 +13,7 @@ public class Recipe {
     public ArrayList<Item> Outputs;
 
     public String Code;
+    public float Speed;
 
     public int Index;
     public String code()
