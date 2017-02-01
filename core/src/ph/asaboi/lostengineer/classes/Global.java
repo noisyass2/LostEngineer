@@ -60,21 +60,21 @@ public class Global {
         System.out.println("Added " + i + " " + ore);
     }
 
-    public void AddIronMiner() {
-
+    public void AddMiner(String miner)
+    {
         if(Inventory.Has("burner-mining-drill",1)) {
-            Inventory.Add("iron-drill", 1);
+            Inventory.Add(miner + "-drill", 1);
             Inventory.Remove("burner-mining-drill",1);
         }
-        System.out.println("Added iron drill");
+        System.out.println("Added " + miner + " drill");
     }
 
-    public void DelIronMiner() {
-
-        if(Inventory.Has("iron-drill",1)) {
+    public void DelMiner(String miner)
+    {
+        if(Inventory.Has(miner + "-drill",1)) {
             Inventory.Add("burner-mining-drill", 1);
-            Inventory.Remove("iron-drill",1);
+            Inventory.Remove(miner + "-drill",1);
         }
-        System.out.println("Removed iron drill");
+        System.out.println("Removed " + miner + " drill");
     }
 }

@@ -8,16 +8,18 @@ public class Machine extends  Item {
     public float ActionCounter;
     public float ActionSpeed;
     public float ActionBar;
-    public Global Global;
+    public Inventory Inventory;
     private boolean IsBusy;
     public Recipe Recipe;
 
-    public Machine(Global global) {
+    public Machine(Inventory inventory) {
         IsBusy = false;
         ActionSpeed = 1;
         ActionCounter = 0;
         ActionBar = 0;
-        Global = global;
+        Inventory = inventory;
+
+        Category = "Machine";
     }
 
     public void Update()
@@ -29,17 +31,18 @@ public class Machine extends  Item {
             if(ActionBar <= 0)
             {
                 // Process done, add the output.
-                Global.Inventory.Add(Recipe.Outputs);
+                Inventory.Add(Recipe.Outputs);
+                IsBusy = false;
             }
         }else{
             // Check if inventory has enough.
-            if(Global.Inventory.Has(Recipe.Inputs))
+            if(Inventory.Has(Recipe.Inputs))
             {
                 // Start the machine
                 IsBusy = true;
-                ActionSpeed += Recipe.Speed;
+                ActionCounter += Recipe.Speed;
                 // Take out the inputs.
-                Global.Inventory.Remove(Recipe.Inputs);
+                Inventory.Remove(Recipe.Inputs);
             }
         }
     }

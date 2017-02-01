@@ -8,9 +8,15 @@ public class Item {
     public String Name;
     public int Quantity;
     public int Index;
+    public String Category;
+
+    public Item() {
+        Category = "Item";
+    }
 
     public String code()
     {
         return Code;
     }
+    public String category() { return  Category; }
 }

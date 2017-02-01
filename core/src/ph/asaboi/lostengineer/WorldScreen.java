@@ -140,18 +140,56 @@ public class WorldScreen implements Screen {
         Table table = new Table();
 //
 //        Label lblDrillCount = new Label("Drills:" + Player.Global.Inventory.GetQuantity("burner-mining-drill"),skin);
-        Label lblIron = new Label("Iron Ore : " + Player.Global.Inventory.GetQuantity("iron-drill"),skin);
+        final Label lblIron = new Label("Iron Ore : " + Player.Global.Inventory.GetQuantity("iron-drill"),skin);
         TextButton btnAddIronMiner = new TextButton("+",skin);
         btnAddIronMiner.addListener(new ChangeListener(){
             public void changed (ChangeListener.ChangeEvent event, Actor actor) {
-                Player.Global.AddIronMiner();
+                Player.Global.AddMiner("iron");
+                lblIron.setText("Iron Ore : " + Player.Global.Inventory.GetQuantity("iron-drill"));
             }
         });
 
         TextButton btnRemIronMiner = new TextButton("-",skin);
         btnRemIronMiner.addListener(new ChangeListener(){
             public void changed (ChangeListener.ChangeEvent event, Actor actor) {
-                Player.Global.DelIronMiner();
+                Player.Global.DelMiner("iron");
+                lblIron.setText("Iron Ore : " + Player.Global.Inventory.GetQuantity("iron-drill"));
+            }
+        });
+
+
+        final Label lblCoal = new Label("Coal: " + Player.Global.Inventory.GetQuantity("coal-drill"),skin);
+        TextButton btnAddCoalMiner = new TextButton("+",skin);
+        btnAddCoalMiner.addListener(new ChangeListener(){
+            public void changed (ChangeListener.ChangeEvent event, Actor actor) {
+                Player.Global.AddMiner("coal");
+                lblCoal.setText("Coal: " + Player.Global.Inventory.GetQuantity("coal-drill"));
+            }
+        });
+
+        TextButton btnRemCoalMiner = new TextButton("-",skin);
+        btnRemCoalMiner.addListener(new ChangeListener(){
+            public void changed (ChangeListener.ChangeEvent event, Actor actor) {
+                Player.Global.DelMiner("coal");
+                lblCoal.setText("Coal: " + Player.Global.Inventory.GetQuantity("coal-drill"));
+            }
+        });
+
+
+        final Label lblStone = new Label("Stone: " + Player.Global.Inventory.GetQuantity("stone-drill"),skin);
+        TextButton btnAddStoneMiner = new TextButton("+",skin);
+        btnAddStoneMiner.addListener(new ChangeListener(){
+            public void changed (ChangeListener.ChangeEvent event, Actor actor) {
+                Player.Global.AddMiner("stone");
+                lblStone.setText("Stone: " + Player.Global.Inventory.GetQuantity("stone-drill"));
+            }
+        });
+
+        TextButton btnRemStoneMiner = new TextButton("-",skin);
+        btnRemStoneMiner.addListener(new ChangeListener(){
+            public void changed (ChangeListener.ChangeEvent event, Actor actor) {
+                Player.Global.DelMiner("stone");
+                lblStone.setText("Stone: " + Player.Global.Inventory.GetQuantity("stone-drill"));
             }
         });
 
@@ -160,6 +198,14 @@ public class WorldScreen implements Screen {
         table.add(lblIron).pad(5);
         table.add(btnAddIronMiner).size(30).pad(1);
         table.add(btnRemIronMiner).size(30).pad(5);
+        table.row();
+        table.add(lblCoal).pad(5);
+        table.add(btnAddCoalMiner).size(30).pad(1);
+        table.add(btnRemCoalMiner).size(30).pad(5);
+        table.row();
+        table.add(lblStone).pad(5);
+        table.add(btnAddStoneMiner).size(30).pad(1);
+        table.add(btnRemStoneMiner).size(30).pad(5);
         table.row();
 
         return  table;
