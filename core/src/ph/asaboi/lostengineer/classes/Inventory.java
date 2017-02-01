@@ -61,7 +61,17 @@ public class Inventory {
         item.Name = "Stone Furnace";
         Items.add(item);
 
+        item = new Item();
+        item.Code = "burner-mining-drill";
+        item.Quantity = 1;
+        item.Name = "Burner Drill";
+        Items.add(item);
 
+        item = new Item();
+        item.Code = "iron-drill";
+        item.Quantity = 0;
+        item.Name = "Iron Drill";
+        Items.add(item);
 
     }
 
@@ -143,5 +153,41 @@ public class Inventory {
         }
 
         return hasItems;
+    }
+
+    public int GetQuantity(String itemCode)
+    {
+        Item exists = from(Items).where("code",eq(itemCode)).first();
+        if(exists != null)
+        {
+            return exists.Quantity;
+        }
+        return  0;
+    }
+
+    public boolean Has(String itemCode, int qty) {
+        boolean hasItems = true;
+
+        Item exists = from(Items).where("code", eq(itemCode)).first();
+        if(exists != null)
+        {
+            if(exists.Quantity < qty)
+            {
+                hasItems = false;
+            }
+        }else {
+            hasItems = false;
+
+        }
+
+        return  hasItems;
+    }
+
+    public void Remove(String itemCode, int qty) {
+        Item item = from(Items).where("code", eq(itemCode)).first();
+        if(item != null)
+        {
+            item.Quantity -= qty;
+        }
     }
 }

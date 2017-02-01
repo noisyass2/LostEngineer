@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ph.asaboi.lostengineer.classes.Global;
@@ -40,6 +41,8 @@ public class WorldScreen implements Screen {
     private Table actionTable;
     private Table inventoryTable;
     private Table craftTable;
+    private TextButton btnMineCoal;
+    private Table mineTable;
 
     public WorldScreen(final LostEngineerGame game) {
         this.game = game;
@@ -115,7 +118,55 @@ public class WorldScreen implements Screen {
 
     private void CreateTable() {
         rootTable = new Table();
-        actionTable = new Table();
+        actionTable = GetActionsTable();
+        mineTable = GetMineTable();
+        inventoryTable = Player.Global.Inventory.GetTable(skin);
+        craftTable = Player.GetRecipesTable(skin);
+
+        rootTable.add(actionTable);
+        rootTable.add(inventoryTable);
+        rootTable.row();
+        rootTable.add(craftTable);
+        rootTable.row();
+        rootTable.add(mineTable);
+
+        mineTable.setDebug(true);
+        actionTable.setDebug(true);
+        rootTable.setDebug(true);
+        craftTable.setDebug(true);
+    }
+
+    private Table GetMineTable() {
+        Table table = new Table();
+//
+//        Label lblDrillCount = new Label("Drills:" + Player.Global.Inventory.GetQuantity("burner-mining-drill"),skin);
+        Label lblIron = new Label("Iron Ore : " + Player.Global.Inventory.GetQuantity("iron-drill"),skin);
+        TextButton btnAddIronMiner = new TextButton("+",skin);
+        btnAddIronMiner.addListener(new ChangeListener(){
+            public void changed (ChangeListener.ChangeEvent event, Actor actor) {
+                Player.Global.AddIronMiner();
+            }
+        });
+
+        TextButton btnRemIronMiner = new TextButton("-",skin);
+        btnRemIronMiner.addListener(new ChangeListener(){
+            public void changed (ChangeListener.ChangeEvent event, Actor actor) {
+                Player.Global.DelIronMiner();
+            }
+        });
+
+//        table.add(lblDrillCount).colspan(3).right();
+//        table.row();
+        table.add(lblIron).pad(5);
+        table.add(btnAddIronMiner).size(30).pad(1);
+        table.add(btnRemIronMiner).size(30).pad(5);
+        table.row();
+
+        return  table;
+    }
+
+    private Table GetActionsTable() {
+        Table table = new Table();
         // Buttons
         btnChop = new TextButton("Chop",skin);
         btnChop.addListener(new ChangeListener() {
@@ -145,35 +196,32 @@ public class WorldScreen implements Screen {
             }
         });
 
+        btnMineCoal = new TextButton("Mine Coal",skin);
+        btnMineCoal.addListener(new ChangeListener() {
+            public void changed (ChangeEvent event, Actor actor) {
+                Player.Mine("Coal");
+            }
+        });
+
         //ProgressBar
         pBarChop = new ProgressBar(0,100,1,false,skin);
         pBarChop.setValue(100);
         pBarChop.setWidth(50);
 
-        actionTable.add(pBarChop).width(100).height(5).pad(5);
-        actionTable.row();
-        actionTable.add(btnChop).width(100).pad(5);
-        actionTable.row();
-        actionTable.add(btnMineIron).width(100).pad(5);
-        actionTable.row();
-        actionTable.add(btnMineCopper).width(100).pad(5);
-        actionTable.row();
-        actionTable.add(btnMineStone).width(100).pad(5);
-        actionTable.row();
+        table.add(pBarChop).width(100).height(5).pad(5);
+        table.row();
+        table.add(btnChop).width(100).pad(5);
+        table.row();
+        table.add(btnMineStone).width(100).pad(5);
+        table.row();
+        table.add(btnMineCoal).width(100).pad(5);
+        table.row();
+        table.add(btnMineIron).width(100).pad(5);
+        table.row();
+        table.add(btnMineCopper).width(100).pad(5);
+        table.row();
 
-
-
-        inventoryTable = Player.Global.Inventory.GetTable(skin);
-        craftTable = Player.GetRecipesTable(skin);
-
-        rootTable.add(actionTable);
-        rootTable.add(inventoryTable);
-        rootTable.row();
-        rootTable.add(craftTable);
-
-        actionTable.setDebug(true);
-        rootTable.setDebug(true);
-        craftTable.setDebug(true);
+        return  table;
     }
 
 
