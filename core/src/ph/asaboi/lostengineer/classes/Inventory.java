@@ -27,39 +27,27 @@ public class Inventory {
 
     private void InitializeItems() {
         Items = new ArrayList<Item>();
-        Item item = new Item();
-        item.Code = "Wood";
-        item.Quantity = 0;
-        item.Name = "Raw Wood";
+        Item item = DB.GetItemByCode("wood");
         Items.add(item);
 
-        item = new Item();
-        item.Code = "IronOre";
-        item.Quantity = 0;
-        item.Name = "Iron Ore";
+        item = DB.GetItemByCode("iron-ore");
         Items.add(item);
 
-        item = new Item();
-        item.Code = "CopperOre";
-        item.Quantity = 0;
-        item.Name = "Copper Ore";
+        item = DB.GetItemByCode("copper-ore");
         Items.add(item);
 
-        item = new Item();
-        item.Code = "Coal";
-        item.Quantity = 0;
-        item.Name = "Coal";
+        item = DB.GetItemByCode("coal");
         Items.add(item);
 
-        item = new Item();
-        item.Code = "Stone";
-        item.Quantity = 0;
-        item.Name = "Raw Stone";
+        item = DB.GetItemByCode("stone");
+        Items.add(item);
+
+        item = DB.GetItemByCode("iron-plate");
         Items.add(item);
 
         item = new Item();
         item.Code = "stone-furnace";
-        item.Quantity = 0;
+        item.Quantity = 1;
         item.Name = "Stone Furnace";
         Items.add(item);
 
@@ -69,7 +57,7 @@ public class Inventory {
         item.Name = "Burner Drill";
         Items.add(item);
 
-
+        // Drills
         Machine ironDrill = new Machine(this);
         ironDrill.Code = "iron-drill";
         ironDrill.Quantity = 0;
@@ -154,6 +142,41 @@ public class Inventory {
         Items.add(coalDrill);
         Items.add(stoneDrill);
 
+        // Furnaces
+        Machine ironFurnace = new Machine(this);
+        ironFurnace.Code = "iron-furnace";
+        ironFurnace.Quantity = 0;
+        ironFurnace.Name = "Iron Furnace";
+
+        recipe = new Recipe();
+        recipe.Name = "Iron Plate";
+        recipe.Code = "iron-plate-recipe";
+
+        recipe.Inputs = new ArrayList<Item>();
+        coal = new Item();
+        coal.Code = "Coal";
+        coal.Quantity = 2;
+        coal.Name = "Coal";
+        recipe.Inputs.add(coal);
+
+        ironOre = new Item();
+        ironOre.Code = "IronOre";
+        ironOre.Quantity = 1;
+        ironOre.Name = "Iron Ore";
+        recipe.Inputs.add(ironOre);
+
+        recipe.Outputs = new ArrayList<Item>();
+        Item ironPlate = new Item();
+        ironPlate.Code = "IronPlate";
+        ironPlate.Quantity = 1;
+        ironPlate.Name = "Iron Plate";
+        recipe.Outputs.add(ironPlate);
+
+        recipe.Speed = 300;
+        ironFurnace.Recipe = recipe;
+
+
+        Items.add(ironFurnace);
     }
 
 
@@ -188,6 +211,7 @@ public class Inventory {
                 machines) {
             Machine machine = (Machine)item;
             for (int i = 0; i < machine.Quantity; i++) {
+
                 machine.Update();
             }
         }
@@ -226,9 +250,11 @@ public class Inventory {
                 if(exists.Quantity < inputItem.Quantity)
                 {
                     hasItems = false;
+                    System.out.println("inputItem.Quantity = " + inputItem.Quantity);
                 }
             }else {
                 hasItems = false;
+                System.out.println("no item with code " + inputItem.Code);
                 break;
             }
         }

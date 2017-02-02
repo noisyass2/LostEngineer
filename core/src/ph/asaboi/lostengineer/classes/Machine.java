@@ -32,6 +32,7 @@ public class Machine extends  Item {
             {
                 // Process done, add the output.
                 Inventory.Add(Recipe.Outputs);
+
                 IsBusy = false;
             }
         }else{
@@ -43,6 +44,7 @@ public class Machine extends  Item {
                 ActionCounter += Recipe.Speed;
                 // Take out the inputs.
                 Inventory.Remove(Recipe.Inputs);
+
             }
         }
     }

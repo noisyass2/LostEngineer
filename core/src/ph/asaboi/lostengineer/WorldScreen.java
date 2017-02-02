@@ -43,6 +43,7 @@ public class WorldScreen implements Screen {
     private Table craftTable;
     private TextButton btnMineCoal;
     private Table mineTable;
+    private Table smeltTable;
 
     public WorldScreen(final LostEngineerGame game) {
         this.game = game;
@@ -120,20 +121,53 @@ public class WorldScreen implements Screen {
         rootTable = new Table();
         actionTable = GetActionsTable();
         mineTable = GetMineTable();
+        smeltTable = GetSmeltTable();
+
         inventoryTable = Player.Global.Inventory.GetTable(skin);
         craftTable = Player.GetRecipesTable(skin);
 
+
+        rootTable.add(inventoryTable).colspan(3).right();
+        rootTable.row();
+
         rootTable.add(actionTable);
-        rootTable.add(inventoryTable);
-        rootTable.row();
         rootTable.add(craftTable);
-        rootTable.row();
         rootTable.add(mineTable);
+        rootTable.add(smeltTable);
 
         mineTable.setDebug(true);
         actionTable.setDebug(true);
         rootTable.setDebug(true);
         craftTable.setDebug(true);
+    }
+
+    private Table GetSmeltTable() {
+        Table table = new Table();
+
+        final Label lblIron = new Label("Iron Plate : " + Player.Global.Inventory.GetQuantity("iron-furnace"),skin);
+        TextButton btnAddIronFurnace = new TextButton("+",skin);
+        btnAddIronFurnace.addListener(new ChangeListener(){
+            public void changed (ChangeListener.ChangeEvent event, Actor actor) {
+                Player.Global.AddFurnace("iron");
+                lblIron.setText("Iron Plate : " + Player.Global.Inventory.GetQuantity("iron-furnace"));
+            }
+        });
+
+        TextButton btnRemIronFurnace = new TextButton("-",skin);
+        btnRemIronFurnace.addListener(new ChangeListener(){
+            public void changed (ChangeListener.ChangeEvent event, Actor actor) {
+                Player.Global.DelFurnace("iron");
+                lblIron.setText("Iron Plate : " + Player.Global.Inventory.GetQuantity("iron-furnace"));
+            }
+        });
+
+
+        table.add(lblIron).pad(5);
+        table.add(btnAddIronFurnace).size(30).pad(1);
+        table.add(btnRemIronFurnace).size(30).pad(5);
+        table.row();
+
+        return table;
     }
 
     private Table GetMineTable() {

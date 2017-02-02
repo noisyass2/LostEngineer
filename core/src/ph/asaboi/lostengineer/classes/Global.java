@@ -47,6 +47,29 @@ public class Global {
         recipe.Speed = 200;
         Recipes.add(recipe);
 
+
+        recipe = new Recipe();
+        recipe.Name = "Burner Drill";
+        recipe.Code = "burner-mining-drill";
+
+        recipe.Inputs = new ArrayList<Item>();
+        Item stone = new Item();
+        stone.Code = "iron-gear-wheel";
+        stone.Quantity = 5;
+        stone.Name = "Raw Stone";
+
+        recipe.Inputs.add(stone);
+
+        recipe.Outputs = new ArrayList<Item>();
+        Item furnace = new Item();
+        furnace.Code = "stone-furnace";
+        furnace.Quantity = 1;
+        furnace.Name = "Stone Furnace";
+
+        recipe.Outputs.add(furnace);
+        recipe.Speed = 200;
+        Recipes.add(recipe);
+
     }
 
     public void GainWood(int i) {
@@ -76,5 +99,23 @@ public class Global {
             Inventory.Remove(miner + "-drill",1);
         }
         System.out.println("Removed " + miner + " drill");
+    }
+
+    public void AddFurnace(String furnace) {
+        if(Inventory.Has("stone-furnace",1)) {
+            Inventory.Add(furnace + "-furnace", 1);
+            Inventory.Remove("stone-furnace",1);
+        }
+        System.out.println("Added " + furnace + " furnace");
+    }
+
+
+    public void DelFurnace(String furnace)
+    {
+        if(Inventory.Has(furnace + "-furnace",1)) {
+            Inventory.Add("stone-furnace", 1);
+            Inventory.Remove(furnace + "-furnace",1);
+        }
+        System.out.println("Removed " + furnace + " furnace");
     }
 }
