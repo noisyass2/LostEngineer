@@ -258,28 +258,28 @@ public class WorldScreen implements Screen {
         btnMineIron = new TextButton("Mine Iron",skin);
         btnMineIron.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                Player.Mine("IronOre");
+                Player.Mine("iron-ore");
             }
         });
 
         btnMineCopper = new TextButton("Mine Copper",skin);
         btnMineCopper.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                Player.Mine("CopperOre");
+                Player.Mine("copper-ore");
             }
         });
 
         btnMineStone = new TextButton("Mine Stone",skin);
         btnMineStone.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                Player.Mine("Stone");
+                Player.Mine("stone");
             }
         });
 
         btnMineCoal = new TextButton("Mine Coal",skin);
         btnMineCoal.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                Player.Mine("Coal");
+                Player.Mine("coal");
             }
         });
 

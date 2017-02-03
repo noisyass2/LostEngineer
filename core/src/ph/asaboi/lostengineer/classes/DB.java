@@ -12,7 +12,9 @@ public class DB {
     public static ArrayList<Machine> Machines;
     public static ArrayList<Recipe> Recipes;
 
-    public void Init()
+
+
+    public static void Init()
     {
         Items = new ArrayList<Item>();
         String[] names = new String[] { "Raw Wood","Iron Ore" ,"Copper Ore","Coal","Stone","Iron Plate","Stone Furnace","Burner Drill" };
@@ -22,6 +24,7 @@ public class DB {
             Item item = new Item();
             item.Code = codes[i];
             item.Name = names[i];
+            item.Index = i;
             item.Quantity = 1;
             Items.add(item);
         }
@@ -37,6 +40,7 @@ public class DB {
         {
             item.Name = dbItem.Name;
             item.Code = dbItem.Code;
+            item.Index = dbItem.Index;
             item.Category = dbItem.Category;
             item.Quantity = 0;
         }

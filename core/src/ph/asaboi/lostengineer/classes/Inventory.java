@@ -27,6 +27,7 @@ public class Inventory {
 
     private void InitializeItems() {
         Items = new ArrayList<Item>();
+        DB.Init();
         Item item = DB.GetItemByCode("wood");
         Items.add(item);
 
@@ -45,10 +46,8 @@ public class Inventory {
         item = DB.GetItemByCode("iron-plate");
         Items.add(item);
 
-        item = new Item();
-        item.Code = "stone-furnace";
+        item = DB.GetItemByCode("stone-furnace");
         item.Quantity = 1;
-        item.Name = "Stone Furnace";
         Items.add(item);
 
         item = new Item();
@@ -68,17 +67,13 @@ public class Inventory {
         recipe.Code = "iron-ore-recipe";
 
         recipe.Inputs = new ArrayList<Item>();
-        Item coal = new Item();
-        coal.Code = "Coal";
-        coal.Quantity = 1;
-        coal.Name = "Coal";
-        recipe.Inputs.add(coal);
+        item = DB.GetItemByCode("coal");
+        item.Quantity = 1;
+        recipe.Inputs.add(item);
 
         recipe.Outputs = new ArrayList<Item>();
-        Item ironOre = new Item();
-        ironOre.Code = "IronOre";
-        ironOre.Quantity = 5;
-        ironOre.Name = "Iron Ore";
+        Item ironOre = DB.GetItemByCode("iron-ore");
+        ironOre.Quantity = 3;
         recipe.Outputs.add(ironOre);
 
         recipe.Speed = 300;
@@ -96,18 +91,14 @@ public class Inventory {
         recipe.Code = "coal-recipe";
 
         recipe.Inputs = new ArrayList<Item>();
-        coal = new Item();
-        coal.Code = "Coal";
-        coal.Quantity = 1;
-        coal.Name = "Coal";
-        recipe.Inputs.add(coal);
+        item = DB.GetItemByCode("coal");
+        item.Quantity = 1;
+        recipe.Inputs.add(item);
 
         recipe.Outputs = new ArrayList<Item>();
-        coal = new Item();
-        coal.Code = "Coal";
-        coal.Quantity = 5;
-        coal.Name = "Coal";
-        recipe.Outputs.add(coal);
+        item = DB.GetItemByCode("coal");
+        item.Quantity = 5;
+        recipe.Outputs.add(item);
 
         recipe.Speed = 300;
         coalDrill.Recipe = recipe;
@@ -122,17 +113,13 @@ public class Inventory {
         recipe.Code = "stone-recipe";
 
         recipe.Inputs = new ArrayList<Item>();
-        coal = new Item();
-        coal.Code = "Coal";
-        coal.Quantity = 1;
-        coal.Name = "Coal";
-        recipe.Inputs.add(coal);
+        item = DB.GetItemByCode("coal");
+        item.Quantity = 1;
+        recipe.Inputs.add(item);
 
         recipe.Outputs = new ArrayList<Item>();
-        Item stone = new Item();
-        stone.Code = "Stone";
+        Item stone = DB.GetItemByCode("stone");
         stone.Quantity = 5;
-        stone.Name = "Stone";
         recipe.Outputs.add(stone);
 
         recipe.Speed = 300;
@@ -153,23 +140,17 @@ public class Inventory {
         recipe.Code = "iron-plate-recipe";
 
         recipe.Inputs = new ArrayList<Item>();
-        coal = new Item();
-        coal.Code = "Coal";
-        coal.Quantity = 2;
-        coal.Name = "Coal";
-        recipe.Inputs.add(coal);
+        item = DB.GetItemByCode("coal");
+        item.Quantity = 1;
+        recipe.Inputs.add(item);
 
-        ironOre = new Item();
-        ironOre.Code = "IronOre";
+        ironOre = DB.GetItemByCode("iron-ore");
         ironOre.Quantity = 1;
-        ironOre.Name = "Iron Ore";
         recipe.Inputs.add(ironOre);
 
         recipe.Outputs = new ArrayList<Item>();
-        Item ironPlate = new Item();
-        ironPlate.Code = "IronPlate";
+        Item ironPlate = DB.GetItemByCode("iron-plate");
         ironPlate.Quantity = 1;
-        ironPlate.Name = "Iron Plate";
         recipe.Outputs.add(ironPlate);
 
         recipe.Speed = 300;
@@ -250,11 +231,11 @@ public class Inventory {
                 if(exists.Quantity < inputItem.Quantity)
                 {
                     hasItems = false;
-                    System.out.println("inputItem.Quantity = " + inputItem.Quantity);
+
                 }
             }else {
                 hasItems = false;
-                System.out.println("no item with code " + inputItem.Code);
+
                 break;
             }
         }

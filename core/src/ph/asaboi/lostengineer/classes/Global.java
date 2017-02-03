@@ -53,18 +53,18 @@ public class Global {
         recipe.Code = "burner-mining-drill";
 
         recipe.Inputs = new ArrayList<Item>();
-        Item stone = new Item();
-        stone.Code = "iron-gear-wheel";
-        stone.Quantity = 5;
-        stone.Name = "Raw Stone";
+        Item ironPlate = new Item();
+       ironPlate.Code = "iron-plate";
+       ironPlate.Quantity = 5;
+       ironPlate.Name = "Raw Stone";
 
-        recipe.Inputs.add(stone);
+        recipe.Inputs.add(ironPlate);
 
         recipe.Outputs = new ArrayList<Item>();
-        Item furnace = new Item();
-        furnace.Code = "stone-furnace";
+        furnace = new Item();
+        furnace.Code = "burner-mining-drill";
         furnace.Quantity = 1;
-        furnace.Name = "Stone Furnace";
+        furnace.Name = "Burner Drill";
 
         recipe.Outputs.add(furnace);
         recipe.Speed = 200;
