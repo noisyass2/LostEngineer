@@ -1,0 +1,39 @@
+{
+  "Recipes":[
+    {
+      "Name": "Stone Furnace",
+      "Code" : "stone-furnace-recipe",
+      "Speed": 200,
+      "Inputs": [
+        {
+          "Code":"stone",
+          "Quantity":5
+        }
+      ],
+      "Outputs":[
+        {
+          "Code": "stone-furnace",
+          "Quantity":1
+        }
+      ]
+    },
+    {
+      "Name": "Burner Mining Drill",
+      "Code" : "burner-miner-recipe",
+      "Speed": 200,
+      "Inputs": [
+        {
+          "Code":"iron-plate",
+          "Quantity":5
+        }
+      ],
+      "Outputs":[
+        {
+          "Code": "burner-mining-drill",
+          "Quantity":1
+        }
+      ]
+    }
+  ]
+}
+

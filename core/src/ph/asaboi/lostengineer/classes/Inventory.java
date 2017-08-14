@@ -46,6 +46,9 @@ public class Inventory {
         item = DB.GetItemByCode("iron-plate");
         Items.add(item);
 
+        item = DB.GetItemByCode("copper-plate");
+        Items.add(item);
+
         item = DB.GetItemByCode("stone-furnace");
         item.Quantity = 1;
         Items.add(item);
@@ -158,6 +161,36 @@ public class Inventory {
 
 
         Items.add(ironFurnace);
+
+
+        Machine copperFurnace = new Machine(this);
+        copperFurnace.Code = "copper-furnace";
+        copperFurnace.Quantity = 0;
+        copperFurnace.Name = "Copper Furnace";
+
+        recipe = new Recipe();
+        recipe.Name = "Copper Plate";
+        recipe.Code = "copper-plate-recipe";
+
+        recipe.Inputs = new ArrayList<Item>();
+        item = DB.GetItemByCode("coal");
+        item.Quantity = 1;
+        recipe.Inputs.add(item);
+
+        ironOre = DB.GetItemByCode("copper-ore");
+        ironOre.Quantity = 1;
+        recipe.Inputs.add(ironOre);
+
+        recipe.Outputs = new ArrayList<Item>();
+        Item copperPlate = DB.GetItemByCode("copper-plate");
+        copperPlate.Quantity = 1;
+        recipe.Outputs.add(copperPlate);
+
+        recipe.Speed = 300;
+        copperFurnace.Recipe = recipe;
+
+
+        Items.add(copperFurnace);
     }
 
 

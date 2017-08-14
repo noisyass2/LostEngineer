@@ -6,13 +6,18 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ph.asaboi.lostengineer.classes.Global;
@@ -44,13 +49,14 @@ public class WorldScreen implements Screen {
     private TextButton btnMineCoal;
     private Table mineTable;
     private Table smeltTable;
+    private Table tabControl;
 
     public WorldScreen(final LostEngineerGame game) {
         this.game = game;
 
         skin = new Skin(Gdx.files.internal("ui/level-plane-ui.json"));
         skind = new Skin(Gdx.files.internal("data/uiskin.json"));
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new FitViewport(480,800));
         Gdx.input.setInputProcessor(stage);
 
         Player = new Player(new Global());
@@ -86,6 +92,7 @@ public class WorldScreen implements Screen {
         btnMineIron.setTouchable(actionEnabled);
         btnMineCopper.setTouchable(actionEnabled);
         btnMineStone.setTouchable(actionEnabled);
+        btnMineCoal.setTouchable(actionEnabled);
 
         stage.draw();
     }
@@ -119,6 +126,7 @@ public class WorldScreen implements Screen {
 
     private void CreateTable() {
         rootTable = new Table();
+        rootTable.setFillParent(true);
         actionTable = GetActionsTable();
         mineTable = GetMineTable();
         smeltTable = GetSmeltTable();
@@ -126,45 +134,112 @@ public class WorldScreen implements Screen {
         inventoryTable = Player.Global.Inventory.GetTable(skin);
         craftTable = Player.GetRecipesTable(skin);
 
-
         rootTable.add(inventoryTable).colspan(3).right();
         rootTable.row();
 
-        rootTable.add(actionTable);
-        rootTable.add(craftTable);
-        rootTable.add(mineTable);
-        rootTable.add(smeltTable);
+        HorizontalGroup group = new HorizontalGroup();
+        final Button tab1 = new TextButton("Commands", skin);
+        final Button tab2 = new TextButton("Craft", skin);
+        final Button tab3 = new TextButton("Mine", skin);
+        final Button tab4 = new TextButton("Smelt",skin);
 
-        mineTable.setDebug(true);
-        actionTable.setDebug(true);
-        rootTable.setDebug(true);
-        craftTable.setDebug(true);
+        group.addActor(tab1);
+        group.addActor(tab2);
+        group.addActor(tab3);
+        group.addActor(tab4);
+        rootTable.add(group);
+
+        // Listen to changes in the tab button checked states
+        // Set visibility of the tab content to match the checked state
+        ChangeListener tab_listener = new ChangeListener(){
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                actionTable.setVisible(tab1.isChecked());
+                craftTable.setVisible(tab2.isChecked());
+                mineTable.setVisible(tab3.isChecked());
+                smeltTable.setVisible(tab4.isChecked());
+            }
+        };
+        tab1.addListener(tab_listener);
+        tab2.addListener(tab_listener);
+        tab3.addListener(tab_listener);
+        tab4.addListener(tab_listener);
+
+        ButtonGroup tabs = new ButtonGroup();
+        tabs.setMinCheckCount(1);
+        tabs.setMaxCheckCount(1);
+        tabs.add(tab1);
+        tabs.add(tab2);
+        tabs.add(tab3);
+        tabs.add(tab4);
+
+
+
+        rootTable.add(tabControl).colspan(3);
+        rootTable.row();
+//ProgressBar
+        pBarChop = new ProgressBar(0,100,1,false,skin);
+        pBarChop.setValue(100);
+        pBarChop.setWidth(50);
+
+        rootTable.add(pBarChop).width(400).colspan(3).pad(5);
+        rootTable.row();
+
+        Stack container = new Stack();
+        container.add(actionTable);
+        container.add(craftTable);
+        container.add(mineTable);
+        container.add(smeltTable);
+
+        rootTable.add(container);
+
+//        mineTable.setDebug(true);
+//        actionTable.setDebug(true);
+//        rootTable.setDebug(true);
+//        craftTable.setDebug(true);
+    }
+
+    private Table GetTabControl() {
+        Table table = new Table();
+
+
+
+        return  table;
     }
 
     private Table GetSmeltTable() {
         Table table = new Table();
+        String[] furnaces = new String[]{ "iron-furnace","copper-furnace" };
+        String[] ores = new String[]{      "iron",        "copper" };
+        String[] plates = new String[] {   "Iron Plate",  "Copper Plate"};
 
-        final Label lblIron = new Label("Iron Plate : " + Player.Global.Inventory.GetQuantity("iron-furnace"),skin);
-        TextButton btnAddIronFurnace = new TextButton("+",skin);
-        btnAddIronFurnace.addListener(new ChangeListener(){
-            public void changed (ChangeListener.ChangeEvent event, Actor actor) {
-                Player.Global.AddFurnace("iron");
-                lblIron.setText("Iron Plate : " + Player.Global.Inventory.GetQuantity("iron-furnace"));
-            }
-        });
+        for (int i = 0; i < plates.length; i++) {
+            final String furnace = furnaces[i], ore = ores[i],plate = plates[i];
 
-        TextButton btnRemIronFurnace = new TextButton("-",skin);
-        btnRemIronFurnace.addListener(new ChangeListener(){
-            public void changed (ChangeListener.ChangeEvent event, Actor actor) {
-                Player.Global.DelFurnace("iron");
-                lblIron.setText("Iron Plate : " + Player.Global.Inventory.GetQuantity("iron-furnace"));
-            }
-        });
+            final Label lblIron = new Label(plate + Player.Global.Inventory.GetQuantity(furnace), skin);
+            TextButton btnAddIronFurnace = new TextButton("+", skin);
+            btnAddIronFurnace.addListener(new ChangeListener() {
+                public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                    Player.Global.AddFurnace(ore);
+                    lblIron.setText(plate + Player.Global.Inventory.GetQuantity(furnace));
+                }
+            });
+
+            TextButton btnRemIronFurnace = new TextButton("-", skin);
+            btnRemIronFurnace.addListener(new ChangeListener() {
+                public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                    Player.Global.DelFurnace(ore);
+                    lblIron.setText(plate + Player.Global.Inventory.GetQuantity(furnace));
+                }
+            });
 
 
-        table.add(lblIron).pad(5);
-        table.add(btnAddIronFurnace).size(30).pad(1);
-        table.add(btnRemIronFurnace).size(30).pad(5);
+            table.add(lblIron).pad(5);
+            table.add(btnAddIronFurnace).size(30).pad(1);
+            table.add(btnRemIronFurnace).size(30).pad(5);
+            table.row();
+        }
+
         table.row();
 
         return table;
@@ -283,12 +358,7 @@ public class WorldScreen implements Screen {
             }
         });
 
-        //ProgressBar
-        pBarChop = new ProgressBar(0,100,1,false,skin);
-        pBarChop.setValue(100);
-        pBarChop.setWidth(50);
 
-        table.add(pBarChop).width(100).height(5).pad(5);
         table.row();
         table.add(btnChop).width(100).pad(5);
         table.row();

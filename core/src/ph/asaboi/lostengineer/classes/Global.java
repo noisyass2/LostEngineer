@@ -1,10 +1,15 @@
 package ph.asaboi.lostengineer.classes;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 
 import static com.wagnerandade.coollection.Coollection.*;
 
@@ -25,50 +30,83 @@ public class Global {
         Recipes = new ArrayList<Recipe>();
 
         //Recipes
-        Recipe recipe = new Recipe();
-        recipe.Name = "Stone Furnace";
-        recipe.Code = "stone-furnace";
+        FileHandle file = Gdx.files.internal("data/recipes.json");
 
-        recipe.Inputs = new ArrayList<Item>();
-        Item stone = new Item();
-        stone.Code = "Stone";
-        stone.Quantity = 5;
-        stone.Name = "Raw Stone";
+        JsonReader jsonReader = new JsonReader();
+        JsonValue root = jsonReader.parse(file);
 
-        recipe.Inputs.add(stone);
+        for(JsonValue recipe : root.get("Recipes"))
+        {
+            Recipe newRecipe = new Recipe();
+            newRecipe.Name = recipe.getString("Name");
+            newRecipe.Code = recipe.getString("Code");
+            newRecipe.Speed = recipe.getInt("Speed");
+            newRecipe.Inputs = new ArrayList<Item>();
+            newRecipe.Outputs = new ArrayList<Item>();
 
-        recipe.Outputs = new ArrayList<Item>();
-        Item furnace = new Item();
-        furnace.Code = "stone-furnace";
-        furnace.Quantity = 1;
-        furnace.Name = "Stone Furnace";
+            for(JsonValue input : recipe.get("Inputs"))
+            {
+                Item item = DB.GetItemByCode(input.getString("Code"));
+                item.Quantity = input.getInt("Quantity");
 
-        recipe.Outputs.add(furnace);
-        recipe.Speed = 200;
-        Recipes.add(recipe);
+                newRecipe.Inputs.add(item);
+            }
 
+            for(JsonValue output : recipe.get("Outputs"))
+            {
+                Item item = DB.GetItemByCode(output.getString("Code"));
+                item.Quantity = output.getInt("Quantity");
 
-        recipe = new Recipe();
-        recipe.Name = "Burner Drill";
-        recipe.Code = "burner-mining-drill";
+                newRecipe.Outputs.add(item);
+            }
 
-        recipe.Inputs = new ArrayList<Item>();
-        Item ironPlate = new Item();
-       ironPlate.Code = "iron-plate";
-       ironPlate.Quantity = 5;
-       ironPlate.Name = "Raw Stone";
-
-        recipe.Inputs.add(ironPlate);
-
-        recipe.Outputs = new ArrayList<Item>();
-        furnace = new Item();
-        furnace.Code = "burner-mining-drill";
-        furnace.Quantity = 1;
-        furnace.Name = "Burner Drill";
-
-        recipe.Outputs.add(furnace);
-        recipe.Speed = 200;
-        Recipes.add(recipe);
+            Recipes.add(newRecipe);
+        }
+//
+//
+//        Recipe recipe = new Recipe();
+//        recipe.Name = "Stone Furnace";
+//        recipe.Code = "stone-furnace";
+//
+//        recipe.Inputs = new ArrayList<Item>();
+//        Item stone = DB.GetItemByCode("stone");
+//        stone.Quantity = 5;
+//        stone.Name = "Raw Stone";
+//
+//        recipe.Inputs.add(stone);
+//
+//        recipe.Outputs = new ArrayList<Item>();
+//        Item furnace = new Item();
+//        furnace.Code = "stone-furnace";
+//        furnace.Quantity = 1;
+//        furnace.Name = "Stone Furnace";
+//
+//        recipe.Outputs.add(furnace);
+//        recipe.Speed = 200;
+//        Recipes.add(recipe);
+//
+//
+//        recipe = new Recipe();
+//        recipe.Name = "Burner Drill";
+//        recipe.Code = "burner-mining-drill";
+//
+//        recipe.Inputs = new ArrayList<Item>();
+//        Item ironPlate = new Item();
+//       ironPlate.Code = "iron-plate";
+//       ironPlate.Quantity = 5;
+//       ironPlate.Name = "Raw Stone";
+//
+//        recipe.Inputs.add(ironPlate);
+//
+//        recipe.Outputs = new ArrayList<Item>();
+//        furnace = new Item();
+//        furnace.Code = "burner-mining-drill";
+//        furnace.Quantity = 1;
+//        furnace.Name = "Burner Drill";
+//
+//        recipe.Outputs.add(furnace);
+//        recipe.Speed = 200;
+//        Recipes.add(recipe);
 
     }
 

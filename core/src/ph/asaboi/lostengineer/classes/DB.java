@@ -17,8 +17,8 @@ public class DB {
     public static void Init()
     {
         Items = new ArrayList<Item>();
-        String[] names = new String[] { "Raw Wood","Iron Ore" ,"Copper Ore","Coal","Stone","Iron Plate","Stone Furnace","Burner Drill" };
-        String[] codes = new String[] { "wood","iron-ore","copper-ore","coal","stone", "iron-plate","stone-furnace","burner-mining-drill" };
+        String[] names = new String[] { "Raw Wood","Iron Ore" ,"Copper Ore","Coal","Stone","Iron Plate","Copper Plate","Stone Furnace","Burner Drill" };
+        String[] codes = new String[] { "wood","iron-ore","copper-ore","coal","stone", "iron-plate","copper-plate","stone-furnace","burner-mining-drill" };
 
         for (int i = 0; i < names.length; i++) {
             Item item = new Item();
