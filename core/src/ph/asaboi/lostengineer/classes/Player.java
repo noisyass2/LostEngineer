@@ -56,8 +56,6 @@ public class Player {
         ActionMax = 100;
     }
 
-
-
     public void Update()
     {
         if(IsBusy)

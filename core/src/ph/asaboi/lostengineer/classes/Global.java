@@ -110,6 +110,12 @@ public class Global {
 
     }
 
+    private static Global instance = null;
+    public static Global getInstance(){
+        if(instance == null)  instance = new Global();
+        return instance;
+    }
+
     public void GainWood(int i) {
         Inventory.Add("Wood",i);
         System.out.println("Added wood");
